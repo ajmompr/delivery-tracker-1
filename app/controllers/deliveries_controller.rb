@@ -3,6 +3,7 @@ class DeliveriesController < ApplicationController
     matching_deliveries = Delivery.all
 
     @list_of_deliveries = matching_deliveries.order({ :created_at => :desc })
+    @waiting_on_deliveries = @list_of_deliveries.where({:arrived => false})
 
     render({ :template => "deliveries/index" })
   end
@@ -22,6 +23,7 @@ class DeliveriesController < ApplicationController
     the_delivery.description = params.fetch("query_description")
     the_delivery.supposed_to_arrive_on = params.fetch("query_supposed_to_arrive_on")
     the_delivery.details = params.fetch("query_details")
+    the_delivery.arrived = false
 
     if the_delivery.valid?
       the_delivery.save
@@ -32,19 +34,16 @@ class DeliveriesController < ApplicationController
   end
 
   def update
-    the_id = params.fetch("path_id")
-    the_delivery = Delivery.where({ :id => the_id }).at(0)
+    # Retrieve the delivery ID
+    the_delivery_id = params.fetch("path_id")
+    # Pop out the delivery
+    @the_delivery = Delivery.where({ :id => the_delivery_id})
+    # update the arrived method
+    @the_delivery.update(:arrived => true)
 
-    the_delivery.description = params.fetch("query_description")
-    the_delivery.supposed_to_arrive_on = params.fetch("query_supposed_to_arrive_on")
-    the_delivery.details = params.fetch("query_details")
-
-    if the_delivery.valid?
-      the_delivery.save
-      redirect_to("/deliveries/#{the_delivery.id}", { :notice => "Delivery updated successfully."} )
-    else
-      redirect_to("/deliveries/#{the_delivery.id}", { :alert => the_delivery.errors.full_messages.to_sentence })
-    end
+    #redirect to delivery index
+      redirect_to("/deliveries", { :notice => "Marked as received."} )
+  
   end
 
   def destroy
