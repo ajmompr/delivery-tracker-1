@@ -50,19 +50,19 @@
   <h2> Waiting on </h2>
   <ul>
     <% @waiting_on_deliveries.each do |a_delivery|%>
-  
-        <li>
-          <div><%= a_delivery.description %></div>
-          <div>Supposed to arrive on <%= a_delivery.supposed_to_arrive_on %></div>
-          <div><%= a_delivery.details %></div>
-          <div>
-            <form action="/modify_delivery/<%= a_delivery.id %>" method="post">
-              <input type="hidden" name="arrived" value="true">
-              <button>Mark as received</button>
-            </form>
-          </div>
-        </li>
-      
+
+      <li>
+        <div><%= a_delivery.description %></div>
+        <div>Supposed to arrive on <%= a_delivery.supposed_to_arrive_on %></div>
+        <div><%= a_delivery.details %></div>
+        <div>
+          <form action="/modify_delivery/<%= a_delivery.id %>" method="post">
+            <input type="hidden" name="arrived" value="true">
+            <button>Mark as received</button>
+          </form>
+        </div>
+      </li>
+
     <% end %>
   </ul>
 </div>
@@ -75,8 +75,15 @@
   <ul>
     <% @list_of_deliveries.each do |a_delivery|%>
       <% if a_delivery.arrived == true%>
-        <li><%= a_delivery.description%></li>
-        <li>Updated on <%= a_delivery.updated_at%></li>
+        <li>
+          <div>
+            <%= a_delivery.description%>
+          </div>
+          <small> Updated [do some time wizardry here]
+          <a href="/delete_delivery/<%=a_delivery.id%>"> Delete </a>
+          </small>
+        </li>
+
       <% end %>
     <% end %>
   </ul>

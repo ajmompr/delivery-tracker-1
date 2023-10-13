@@ -52,6 +52,6 @@ class DeliveriesController < ApplicationController
 
     the_delivery.destroy
 
-    redirect_to("/deliveries", { :notice => "Delivery deleted successfully."} )
+    redirect_to("/deliveries", { :notice => "Deleted."} )
   end
 end
