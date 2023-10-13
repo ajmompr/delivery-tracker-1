@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   # Routes for the Delivery resource:
 
   # CREATE
@@ -15,25 +16,6 @@ Rails.application.routes.draw do
   
   # DELETE
   get("/delete_delivery/:path_id", { :controller => "deliveries", :action => "destroy" })
-
-  #------------------------------
-
-  # Routes for the User resource:
-
-  # CREATE
-  post("/insert_user", { :controller => "users", :action => "create" })
-          
-  # READ
-  get("/users", { :controller => "users", :action => "index" })
-  
-  get("/users/:path_id", { :controller => "users", :action => "show" })
-  
-  # UPDATE
-  
-  post("/modify_user/:path_id", { :controller => "users", :action => "update" })
-  
-  # DELETE
-  get("/delete_user/:path_id", { :controller => "users", :action => "destroy" })
 
   #------------------------------
 
